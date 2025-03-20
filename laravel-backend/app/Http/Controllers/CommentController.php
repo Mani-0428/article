@@ -1,25 +1,33 @@
 <?php
+// app/Http/Controllers/CommentController.php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Article;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
+    // Store a new comment for a specific article
+    public function store(Request $request, Article $article)
     {
         $request->validate([
-            'article_id' => 'required|exists:articles,id',
             'comment' => 'required|string',
         ]);
 
         $comment = Comment::create([
-            'article_id' => $request->article_id,
-            'user_id' => $request->user()->id,
+            'article_id' => $article->id,
+            'user_id' => auth()->user()->id, // Make sure to link the comment to the authenticated user
             'comment' => $request->comment,
         ]);
 
-        return response()->json($comment);
+        return response()->json($comment, 201);
+    }
+
+    // Get all comments for a specific article
+    public function index(Article $article)
+    {
+        return response()->json($article->comments);
     }
 }

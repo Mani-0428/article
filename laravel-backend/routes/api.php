@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
@@ -25,4 +24,4 @@ Route::middleware('auth:sanctum')->group(function () {
     // Comments Routes
     Route::post('/articles/{article}/comments', [CommentController::class, 'store']); // Add a comment to an article
     Route::get('/articles/{article}/comments', [CommentController::class, 'index']); // Get all comments for an article
-});
+}); // routes/api.php
